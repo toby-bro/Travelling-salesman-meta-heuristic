@@ -69,31 +69,6 @@ def heuristic(order, towns):
         test = False
     return order
 
-def meta_heuristic(order, towns, tolerance=0):
-    count = 0
-    first_order = order[:]
-    old_order = order[:]
-    for i in range(1, len(order)-1):
-        for j in range(len(order)):
-            new_order = order[:]
-            new_order[i], new_order[j] = new_order[j], new_order[i]
-            tot1, tot2 = total_distance_orders(new_order, towns), total_distance_orders(old_order, towns)
-            if total_distance_orders(new_order, towns) < total_distance_orders(old_order, towns):
-                order = new_order[:]
-                count = 0
-            elif count == 0 and tot1 < (1 + exp(-tolerance / (NUMBER_OF_TOWNS**2 * 10**5))) * tot2:
-                old_order = order[:]
-                order = new_order[:]
-                count += 1
-            else:
-                order = old_order[:]
-                count = 0
-    if first_order == order:
-        print('we are done')
-        global test
-        test = False
-    return order
-
 def meta_heuristic2(order, towns, tolerance=0):
     count = 0
     global number_of_tests
